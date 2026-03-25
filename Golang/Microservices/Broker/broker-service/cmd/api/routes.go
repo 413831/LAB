@@ -13,7 +13,7 @@ func (app *Config) routes() http.Handler {
 
 	// specify who is allowed
 	mux.Use(cors.Handler(cors.Options{
-		AllowedOrigins:   []string{"https://*", "htts://*"},
+		AllowedOrigins:   []string{"https://*", "http://*"},
 		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowedHeaders:   []string{"Accept", "Content-Type", "Authorization", "X-CSRF-Token"},
 		ExposedHeaders:   []string{"Link"},
