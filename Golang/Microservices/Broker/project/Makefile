@@ -2,6 +2,7 @@ FRONT_END_BINARY=frontApp
 BROKER_BINARY=brokerApp
 AUTH_BINARY=authApp
 LOGGER_BINARY=loggerServiceApp
+MAIL_BINARY=mailerApp
 
 ## Detect OS
 ifeq ($(OS),Windows_NT)
@@ -15,7 +16,7 @@ up:
 	@echo "Done!"
 
 ## up_build: rebuild and start containers
-up_build: build_broker build_auth build_logger
+up_build: build_broker build_auth build_logger build_mail
 	@echo "Stopping containers (if running)..."
 	docker-compose down
 	@echo "Building and starting containers..."
@@ -44,6 +45,12 @@ build_logger:
 build_auth:
 	@echo "Building auth..."
 	cd ../authentication-service && GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o $(AUTH_BINARY) ./cmd/api
+	@echo "Done!"
+
+## build_mail: builds mail binary for Linux
+build_mail:
+	@echo "Building mail..."
+	cd ../mail-service && GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o $(MAIL_BINARY) ./cmd/api
 	@echo "Done!"
 
 ## build_front: builds frontend
