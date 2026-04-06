@@ -3,6 +3,7 @@ BROKER_BINARY=brokerApp
 AUTH_BINARY=authApp
 LOGGER_BINARY=loggerServiceApp
 MAIL_BINARY=mailerApp
+LISTENER_BINARY=listenerApp
 
 ## Detect OS
 ifeq ($(OS),Windows_NT)
@@ -16,7 +17,7 @@ up:
 	@echo "Done!"
 
 ## up_build: rebuild and start containers
-up_build: build_broker build_auth build_logger build_mail
+up_build: build_broker build_auth build_logger build_mail build_listener
 	@echo "Stopping containers (if running)..."
 	docker-compose down
 	@echo "Building and starting containers..."
@@ -39,6 +40,12 @@ build_broker:
 build_logger:
 	@echo "Building logger binary..."
 	cd ../logger-service && GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o $(LOGGER_BINARY) ./cmd/api
+	@echo "Done!"
+
+## build_listener: builds listener binary for Linux
+build_listener:
+	@echo "Building listener binary..."
+	cd ../listener-service && GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o $(LISTENER_BINARY) .
 	@echo "Done!"
 
 ## build_auth: builds auth binary for Linux
